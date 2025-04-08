@@ -33,3 +33,20 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+// Rota de cadastro de usuário
+app.post('/cadastrar', (req, res) => {
+    const { usuario, email, senha } = req.body;
+    if (!usuario || !email || !senha) {
+        return res.status(400).send("Preencha todos os campos.");
+    }
+    const sql = "INSERT INTO usuarios (usuario, email, senha) VALUES (?, ?, ?)";
+    db.query(sql, [usuario, email, senha], (err, result) => {
+        if (err) {
+            console.error("Erro ao cadastrar:", err);
+            return res.status(500).send("Erro no servidor.");
+        }
+        res.status(200).send("Usuário cadastrado com sucesso.");
+    });
+});
+
