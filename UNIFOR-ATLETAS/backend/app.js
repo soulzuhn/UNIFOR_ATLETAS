@@ -34,7 +34,6 @@ app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
 
-// Rota de cadastro de usuário
 app.post('/cadastrar', (req, res) => {
     const { usuario, email, senha } = req.body;
     if (!usuario || !email || !senha) {
