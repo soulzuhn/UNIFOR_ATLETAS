@@ -4,8 +4,8 @@ DROP TABLE IF EXISTS usuarios;
 
 CREATE TABLE usuarios (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(100),
-  usuario VARCHAR(50) UNIQUE,
+  usuario VARCHAR(100),
+  email VARCHAR(50) UNIQUE,
   senha VARCHAR(50) 
 );
 
