@@ -16,10 +16,16 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const data = await response.json()
 
     if (response.ok) {
-      alert('Login realizado com sucesso!')
-    } else {
-      alert(data)
+      localStorage.setItem('usuario', data.nome);
+      localStorage.setItem('tipo', data.tipo);
+    
+      if (data.tipo === 'treinador') {
+        window.location.href = 'painelTreinador.html'; 
+      } else {
+        alert('Apenas treinadores acessam este login.');
+      }
     }
+    
   } catch (err) {
     alert('Erro usuario ou senha incorretos.');
   }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel do Treinador</title>
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('tipo') !== 'treinador') {
+      alert("Acesso negado.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <h1>Bem-vindo, treinador</h1>
+  <p>Você poderá registrar a presença dos alunos aqui.</p>
+
+  <button onclick="logout()">Sair</button>
+
+  <script>
+    function logout() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
