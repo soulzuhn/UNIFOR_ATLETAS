@@ -28,7 +28,7 @@ router.post('/login', (req, res) => {
   });
 });
 
-
+// Cadastrar usuário comum
 router.post('/cadastrar', (req, res) => {
   const { usuario, email, senha } = req.body;
   if (!usuario || !email || !senha) {
@@ -44,7 +44,7 @@ router.post('/cadastrar', (req, res) => {
   });
 });
 
-
+// Cadastrar treinador (por coordenadora)
 router.post('/cadastrar-treinador', (req, res) => {
   const { usuarioLogado, novoUsuario, email, senha } = req.body;
 
@@ -65,6 +65,56 @@ router.post('/cadastrar-treinador', (req, res) => {
       }
       res.status(201).send("Treinador cadastrado com sucesso.");
     });
+  });
+});
+
+// Listar todos os treinadores
+router.get('/treinadores', (req, res) => {
+  const sql = "SELECT id, usuario AS nome, email FROM usuarios WHERE tipo = 'treinador'";
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar treinadores:", err);
+      return res.status(500).send("Erro no servidor.");
+    }
+    res.status(200).json(results);
+  });
+});
+
+// Remover treinador
+router.delete('/remover-treinador/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM usuarios WHERE id = ? AND tipo = 'treinador'";
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Erro ao remover treinador:", err);
+      return res.status(500).send("Erro ao remover treinador.");
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send("Treinador não encontrado.");
+    }
+    res.status(200).send("Treinador removido com sucesso.");
+  });
+});
+
+// Editar treinador
+router.put('/editar-treinador/:id', (req, res) => {
+  const { id } = req.params;
+  const { nome, email } = req.body;
+
+  if (!nome || !email) {
+    return res.status(400).send("Nome e email são obrigatórios.");
+  }
+
+  const sql = "UPDATE usuarios SET usuario = ?, email = ? WHERE id = ? AND tipo = 'treinador'";
+  db.query(sql, [nome, email, id], (err, result) => {
+    if (err) {
+      console.error("Erro ao editar treinador:", err);
+      return res.status(500).send("Erro ao editar treinador.");
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send("Treinador não encontrado.");
+    }
+    res.status(200).send("Treinador atualizado com sucesso.");
   });
 });
 
