@@ -1,0 +1,138 @@
+/* Estilos gerais */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e4f2fd;
+    margin: 0;
+    padding: 0;
+    color: #142191;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  
+  /* Caixa principal do painel */
+  .box {
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid #142191;
+    box-shadow: 0 4px 15px rgba(20, 33, 145, 0.2);
+    max-width: 500px;
+    width: 90%;
+    padding: 40px;
+    margin: 40px 0;
+  }
+  
+  /* Títulos */
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #142191;
+  }
+  
+  /* Parágrafo de boas-vindas */
+  .box p {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Formulário */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  form input {
+    padding: 12px;
+    border: 2px solid #142191;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #142191;
+    transition: all 0.3s;
+    box-sizing: border-box;
+  }
+  
+  form input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 74, 247, 0.2);
+  }
+  
+  /* Botões */
+  button {
+    background-color: #004af7;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 2px solid #142191;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #0039c7;
+  }
+  
+  /* Lista de treinadores */
+  ul#lista-treinadores {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+  }
+  
+  ul#lista-treinadores li {
+    background-color: #f0f6ff;
+    border: 1px solid #c3d5ff;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 8px;
+    color: #142191;
+  }
+  
+  /* Linhas horizontais */
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: #c3d5ff;
+    margin: 30px 0;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 480px) {
+    .box {
+      padding: 25px 20px;
+      margin: 20px 10px;
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+    }
+  
+    h3 {
+      font-size: 1.2rem;
+    }
+  
+    button {
+      font-size: 15px;
+      padding: 12px;
+    }
+  }
+  
