@@ -9,7 +9,7 @@ const db = mysql.createConnection({
   database: 'frequencia_unifor'
 });
 
-// Login (sem senha criptografada)
+
 router.post('/login', (req, res) => {
   const { usuario, senha } = req.body;
   const query = 'SELECT * FROM usuarios WHERE usuario = ?';
@@ -28,7 +28,7 @@ router.post('/login', (req, res) => {
   });
 });
 
-// Cadastrar usuário comum
+
 router.post('/cadastrar', (req, res) => {
   const { usuario, email, senha } = req.body;
   if (!usuario || !email || !senha) {
@@ -44,7 +44,7 @@ router.post('/cadastrar', (req, res) => {
   });
 });
 
-// Cadastrar treinador (por coordenadora)
+
 router.post('/cadastrar-treinador', (req, res) => {
   const { usuarioLogado, novoUsuario, email, senha } = req.body;
 
@@ -68,7 +68,7 @@ router.post('/cadastrar-treinador', (req, res) => {
   });
 });
 
-// Listar todos os treinadores
+
 router.get('/treinadores', (req, res) => {
   const sql = "SELECT id, usuario AS nome, email FROM usuarios WHERE tipo = 'treinador'";
   db.query(sql, (err, results) => {
@@ -80,7 +80,7 @@ router.get('/treinadores', (req, res) => {
   });
 });
 
-// Remover treinador
+
 router.delete('/remover-treinador/:id', (req, res) => {
   const { id } = req.params;
   const sql = "DELETE FROM usuarios WHERE id = ? AND tipo = 'treinador'";
@@ -96,7 +96,7 @@ router.delete('/remover-treinador/:id', (req, res) => {
   });
 });
 
-// Editar treinador
+
 router.put('/editar-treinador/:id', (req, res) => {
   const { id } = req.params;
   const { nome, email } = req.body;
