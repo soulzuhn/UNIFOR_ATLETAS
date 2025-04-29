@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel da Coordenadora</title>
+  <link rel="stylesheet" href="../css/painelAdmin.css"> 
+</head>
+<body>
+  <div class="box">
+    <h2>Painel da Coordenadora</h2>
+    <p>Bem-vinda, <strong><span id="nome"></span></strong></p>
+
+    <hr>
+
+    <h3>Cadastrar Novo Treinador</h3>
+    <form id="cadastro-form">
+      <label for="novoUsuario">Nome de usuário:</label>
+      <input type="text" id="novoUsuario" required>
+
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" required>
+
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" required>
+
+      <button type="submit">Cadastrar Treinador</button>
+    </form>
+
+    <hr>
+
+    <h3>Treinadores Cadastrados</h3>
+    <ul id="lista-treinadores"></ul>
+    <div class="botoes-painel">
+      <a href="dashboard.html">
+        <button class="btn-dashboard">Ir para Dashboard</button>
+      </a>
+      <button class="btn-sair" onclick="logout()">Sair</button>
+    </div>
+    
+
+    <script src="../js/painelAdmin.js"></script>
+
+</body>
+</html>

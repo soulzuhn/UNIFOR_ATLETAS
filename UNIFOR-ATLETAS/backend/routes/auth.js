@@ -1,121 +1,130 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql2');
+const mongoose = require('mongoose');
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Rhyan2006@',
-  database: 'frequencia_unifor'
+
+const usuarioSchema = new mongoose.Schema({
+  usuario: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
+  senha: { type: String, required: true },
+  tipo: { type: String, enum: ['coordenadora', 'treinador'], default: 'treinador' },
 });
 
+const Usuario = mongoose.model('Usuario', usuarioSchema);
 
-router.post('/login', (req, res) => {
+
+router.post('/login', async (req, res) => {
   const { usuario, senha } = req.body;
-  const query = 'SELECT * FROM usuarios WHERE usuario = ?';
 
-  db.query(query, [usuario], (err, results) => {
-    if (err) return res.status(500).send('Erro interno no servidor');
-    if (results.length === 0) return res.status(401).send('Usuário não encontrado');
+  try {
+    const user = await Usuario.findOne({ usuario });
 
-    const user = results[0];
+    if (!user) return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
+    if (senha !== user.senha) return res.status(401).json({ mensagem: 'Senha incorreta.' });
 
-    if (senha !== user.senha) {
-      return res.status(401).send('Senha incorreta');
-    }
-
-    res.status(200).json({ mensagem: 'Login bem-sucedido', nome: user.usuario, tipo: user.tipo });
-  });
-});
-
-
-router.post('/cadastrar', (req, res) => {
-  const { usuario, email, senha } = req.body;
-  if (!usuario || !email || !senha) {
-    return res.status(400).send("Preencha todos os campos.");
+    res.status(200).json({ mensagem: 'Login bem-sucedido.', nome: user.usuario, tipo: user.tipo });
+  } catch (err) {
+    console.error('Erro no login:', err);
+    res.status(500).json({ mensagem: 'Erro interno no servidor.' });
   }
-  const sql = "INSERT INTO usuarios (usuario, email, senha, tipo) VALUES (?, ?, ?, 'treinador')";
-  db.query(sql, [usuario, email, senha], (err, result) => {
-    if (err) {
-      console.error("Erro ao cadastrar:", err);
-      return res.status(500).send("Erro no servidor.");
-    }
-    res.status(200).send("Usuário cadastrado com sucesso.");
-  });
 });
 
 
-router.post('/cadastrar-treinador', (req, res) => {
+router.post('/cadastrar', async (req, res) => {
+  const { usuario, email, senha } = req.body;
+
+  if (!usuario || !email || !senha) {
+    return res.status(400).json({ mensagem: 'Preencha todos os campos.' });
+  }
+
+  try {
+    const novoUsuario = new Usuario({ usuario, email, senha });
+    await novoUsuario.save();
+    res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao cadastrar usuário:', err);
+    if (err.code === 11000) {
+      res.status(400).json({ mensagem: 'Usuário já existente.' });
+    } else {
+      res.status(500).json({ mensagem: 'Erro no servidor.' });
+    }
+  }
+});
+
+
+router.post('/cadastrar-treinador', async (req, res) => {
   const { usuarioLogado, novoUsuario, email, senha } = req.body;
 
-  const query = "SELECT * FROM usuarios WHERE usuario = ?";
-  db.query(query, [usuarioLogado], (err, results) => {
-    if (err || results.length === 0) return res.status(403).send("Usuário não autorizado");
+  try {
+    const usuarioAtual = await Usuario.findOne({ usuario: usuarioLogado });
 
-    const usuarioAtual = results[0];
-    if (usuarioAtual.tipo !== 'coordenadora') {
-      return res.status(403).send("Apenas a coordenadora pode cadastrar treinadores.");
+    if (!usuarioAtual || usuarioAtual.tipo !== 'coordenadora') {
+      return res.status(403).json({ mensagem: 'Apenas a coordenadora pode cadastrar treinadores.' });
     }
 
-    const insertQuery = "INSERT INTO usuarios (usuario, email, senha, tipo) VALUES (?, ?, ?, 'treinador')";
-    db.query(insertQuery, [novoUsuario, email, senha], (err2, result) => {
-      if (err2) {
-        console.error("Erro ao cadastrar treinador:", err2);
-        return res.status(500).send("Erro ao cadastrar treinador.");
-      }
-      res.status(201).send("Treinador cadastrado com sucesso.");
-    });
-  });
+    const treinador = new Usuario({ usuario: novoUsuario, email, senha, tipo: 'treinador' });
+    await treinador.save();
+    res.status(201).json({ mensagem: 'Treinador cadastrado com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao cadastrar treinador:', err);
+    res.status(500).json({ mensagem: 'Erro ao cadastrar treinador.' });
+  }
 });
 
 
-router.get('/treinadores', (req, res) => {
-  const sql = "SELECT id, usuario AS nome, email FROM usuarios WHERE tipo = 'treinador'";
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error("Erro ao buscar treinadores:", err);
-      return res.status(500).send("Erro no servidor.");
-    }
-    res.status(200).json(results);
-  });
+router.get('/treinadores', async (req, res) => {
+  try {
+    const treinadores = await Usuario.find({ tipo: 'treinador' }, '_id usuario email'); 
+    res.status(200).json(treinadores);
+  } catch (err) {
+    console.error('Erro ao buscar treinadores:', err);
+    res.status(500).json({ mensagem: 'Erro no servidor.' });
+  }
 });
 
 
-router.delete('/remover-treinador/:id', (req, res) => {
+
+router.delete('/remover-treinador/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "DELETE FROM usuarios WHERE id = ? AND tipo = 'treinador'";
-  db.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error("Erro ao remover treinador:", err);
-      return res.status(500).send("Erro ao remover treinador.");
+
+  try {
+    const result = await Usuario.deleteOne({ _id: id, tipo: 'treinador' });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ mensagem: 'Treinador não encontrado.' });
     }
-    if (result.affectedRows === 0) {
-      return res.status(404).send("Treinador não encontrado.");
-    }
-    res.status(200).send("Treinador removido com sucesso.");
-  });
+
+    res.status(200).json({ mensagem: 'Treinador removido com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao remover treinador:', err);
+    res.status(500).json({ mensagem: 'Erro ao remover treinador.' });
+  }
 });
 
 
-router.put('/editar-treinador/:id', (req, res) => {
+router.put('/editar-treinador/:id', async (req, res) => {
   const { id } = req.params;
   const { nome, email } = req.body;
 
   if (!nome || !email) {
-    return res.status(400).send("Nome e email são obrigatórios.");
+    return res.status(400).json({ mensagem: 'Nome e email são obrigatórios.' });
   }
 
-  const sql = "UPDATE usuarios SET usuario = ?, email = ? WHERE id = ? AND tipo = 'treinador'";
-  db.query(sql, [nome, email, id], (err, result) => {
-    if (err) {
-      console.error("Erro ao editar treinador:", err);
-      return res.status(500).send("Erro ao editar treinador.");
+  try {
+    const result = await Usuario.updateOne(
+      { _id: id, tipo: 'treinador' },
+      { $set: { usuario: nome, email } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ mensagem: 'Treinador não encontrado ou dados iguais.' });
     }
-    if (result.affectedRows === 0) {
-      return res.status(404).send("Treinador não encontrado.");
-    }
-    res.status(200).send("Treinador atualizado com sucesso.");
-  });
+
+    res.status(200).json({ mensagem: 'Treinador atualizado com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao editar treinador:', err);
+    res.status(500).json({ mensagem: 'Erro ao editar treinador.' });
+  }
 });
 
 module.exports = router;

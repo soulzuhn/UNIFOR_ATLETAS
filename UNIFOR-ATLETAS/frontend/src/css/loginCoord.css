@@ -1,0 +1,169 @@
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e4f2fd;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #142191;
+}
+
+
+header {
+  background-color: #e4f2fd;
+  padding: 30px 0 10px;
+  text-align: center;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
+  margin-bottom: 20px;
+}
+
+.logo-container img {
+  max-height: 120px;
+  width: auto;
+  margin-top: 30px; 
+}
+
+.header-logo {
+  max-height: 80px;
+  width: auto;
+}
+
+
+h1,
+h2,
+h3 {
+  color: #142191;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-top: 5px;
+  font-weight: normal;
+}
+
+.login h2 {
+  font-size: 1.5rem;
+  margin: 20px 0 30px;
+  font-weight: 600;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+
+.login {
+  background-color: white;
+  border-radius: 15px;
+  border: 2px solid #142191;
+  box-shadow: 0 4px 15px rgba(20, 33, 145, 0.2);
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  text-align: center;
+}
+
+#admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+#admin-form input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #142191;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  color: #142191;
+}
+
+#admin-form input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 74, 247, 0.2);
+}
+
+#admin-form input::placeholder {
+  color: #8a96b5;
+}
+
+
+#admin-form button {
+  background-color: #004af7;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+  border: 2px solid #142191;
+}
+
+#admin-form button:hover {
+  background-color: #0039c7;
+}
+
+
+.mascote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 40px;
+}
+
+.mascote img {
+  max-height: 450px; 
+  height: auto;
+  width: auto;
+}
+
+
+@media (max-width: 480px) {
+  .login {
+    padding: 30px 20px;
+    margin: 0 15px;
+  }
+
+  .header-logo {
+    max-height: 60px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .login h2 {
+    font-size: 1.3rem;
+  }
+
+  .mascote {
+    display: none; 
+  }
+}
