@@ -1,9 +1,9 @@
 {
   "name": "frequencia-unifor-backend",
   "version": "1.0.0",
-  "main": "backend/app.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node backend/app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
