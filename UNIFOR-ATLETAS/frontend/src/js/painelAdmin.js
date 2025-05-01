@@ -13,7 +13,7 @@ document.getElementById('cadastro-form').addEventListener('submit', async (e) =>
   const email = document.getElementById('email').value;
   const senha = document.getElementById('senha').value;
 
-  const response = await fetch('https://unifor-atletas.onrender.com/api/usuarios/cadastrar-treinador', {
+  const response = await fetch('http://localhost:3000/api/usuarios/cadastrar-treinador', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ usuarioLogado, novoUsuario, email, senha })
@@ -32,7 +32,7 @@ document.getElementById('cadastro-form').addEventListener('submit', async (e) =>
 
 
 async function carregarTreinadores() {
-  const res = await fetch('https://unifor-atletas.onrender.com/api/usuarios/treinadores');
+  const res = await fetch('http://localhost:3000/api/usuarios/treinadores');
   const treinadores = await res.json();
   const lista = document.getElementById('lista-treinadores');
 
@@ -51,7 +51,7 @@ async function carregarTreinadores() {
 
 async function removerTreinador(id) {
   if (confirm("Tem certeza que deseja remover este treinador?")) {
-    const res = await fetch(`https://unifor-atletas.onrender.com/api/usuarios/remover-treinador/${id}`, {
+    const res = await fetch(`http://localhost:3000/api/usuarios/remover-treinador/${id}`, {
       method: 'DELETE'
     });
     const result = await res.text();
@@ -65,7 +65,7 @@ function editarTreinador(id, nomeAtual, emailAtual) {
   const novoEmail = prompt("Novo e-mail:", emailAtual);
 
   if (novoNome && novoEmail) {
-    fetch(`https://unifor-atletas.onrender.com/api/usuarios/editar-treinador/${id}`, {
+    fetch(`http://localhost:3000/api/usuarios/editar-treinador/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome: novoNome, email: novoEmail })
