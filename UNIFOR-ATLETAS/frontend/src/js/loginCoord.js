@@ -4,11 +4,12 @@ document.getElementById("admin-form").addEventListener("submit", async (e) => {
     const senha = document.getElementById("senha").value;
 
     try {
-      const response = await fetch("https://unifor-atletas.onrender.com/api/login", {
+      const response = await fetch("http://localhost:3000/api/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, senha })
       });
+      
 
       const data = await response.json();
 

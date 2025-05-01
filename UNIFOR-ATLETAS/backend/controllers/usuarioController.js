@@ -1,19 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
+const Usuario = require('../models/Usuario');
 
-
-const usuarioSchema = new mongoose.Schema({
-  usuario: { type: String, required: true, unique: true },
-  email: { type: String, required: true },
-  senha: { type: String, required: true },
-  tipo: { type: String, enum: ['coordenadora', 'treinador'], default: 'treinador' },
-});
-
-const Usuario = mongoose.model('Usuario', usuarioSchema);
-
-
-router.post('/login', async (req, res) => {
+exports.login = async (req, res) => {
   const { usuario, senha } = req.body;
 
   try {
@@ -27,10 +14,9 @@ router.post('/login', async (req, res) => {
     console.error('Erro no login:', err);
     res.status(500).json({ mensagem: 'Erro interno no servidor.' });
   }
-});
+};
 
-
-router.post('/cadastrar', async (req, res) => {
+exports.cadastrar = async (req, res) => {
   const { usuario, email, senha } = req.body;
 
   if (!usuario || !email || !senha) {
@@ -49,10 +35,9 @@ router.post('/cadastrar', async (req, res) => {
       res.status(500).json({ mensagem: 'Erro no servidor.' });
     }
   }
-});
+};
 
-
-router.post('/cadastrar-treinador', async (req, res) => {
+exports.cadastrarTreinador = async (req, res) => {
   const { usuarioLogado, novoUsuario, email, senha } = req.body;
 
   try {
@@ -69,22 +54,19 @@ router.post('/cadastrar-treinador', async (req, res) => {
     console.error('Erro ao cadastrar treinador:', err);
     res.status(500).json({ mensagem: 'Erro ao cadastrar treinador.' });
   }
-});
+};
 
-
-router.get('/treinadores', async (req, res) => {
+exports.listarTreinadores = async (req, res) => {
   try {
-    const treinadores = await Usuario.find({ tipo: 'treinador' }, '_id usuario email'); 
+    const treinadores = await Usuario.find({ tipo: 'treinador' }, '_id usuario email');
     res.status(200).json(treinadores);
   } catch (err) {
     console.error('Erro ao buscar treinadores:', err);
     res.status(500).json({ mensagem: 'Erro no servidor.' });
   }
-});
+};
 
-
-
-router.delete('/remover-treinador/:id', async (req, res) => {
+exports.removerTreinador = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -99,10 +81,9 @@ router.delete('/remover-treinador/:id', async (req, res) => {
     console.error('Erro ao remover treinador:', err);
     res.status(500).json({ mensagem: 'Erro ao remover treinador.' });
   }
-});
+};
 
-
-router.put('/editar-treinador/:id', async (req, res) => {
+exports.editarTreinador = async (req, res) => {
   const { id } = req.params;
   const { nome, email } = req.body;
 
@@ -125,6 +106,5 @@ router.put('/editar-treinador/:id', async (req, res) => {
     console.error('Erro ao editar treinador:', err);
     res.status(500).json({ mensagem: 'Erro ao editar treinador.' });
   }
-});
+};
 
-module.exports = router;
