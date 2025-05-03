@@ -31,11 +31,13 @@
       window.location.href = "loginTrein.html";
     }
 
-    // Exibir nome do treinador se estiver salvo
+
     const nome = localStorage.getItem('nome');
     if (nome) {
       document.getElementById('nomeTreinador').textContent = nome;
     }
   </script>
+  <div id="modal-container"></div>
+  <script type="module" src="./src/js/main.js"></script>
 </body>
 </html>

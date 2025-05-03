@@ -39,7 +39,38 @@
     </div>
     
 
-    <script src="src/js/painelAdmin.js"></script>
+    <script type ="module" src="src/js/painelAdmin.js"></script>
 
+  <div id="modal-container"></div>
+
+<div class="modal fade" id="editTrainerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Treinador</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editTrainerForm">
+          <input type="hidden" id="editTreinadorId">
+          <div class="mb-3">
+            <label for="editNome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="editNome" required>
+          </div>
+          <div class="mb-3">
+            <label for="editEmail" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="editEmail" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" form="editTrainerForm">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script type="module" src="./src/js/main.js"></script>
 </body>
 </html>

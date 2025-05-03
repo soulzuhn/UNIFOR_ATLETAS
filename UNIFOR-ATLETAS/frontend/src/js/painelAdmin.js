@@ -1,3 +1,9 @@
+
+import { showModalAlert, showModalConfirm } from './modal.js'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Modal } from 'bootstrap';
+
+
 document.getElementById("nome").textContent = localStorage.getItem("usuario");
 
 function logout() {
@@ -22,11 +28,11 @@ document.getElementById('cadastro-form').addEventListener('submit', async (e) =>
   const result = await response.text();
 
   if (response.ok) {
-    alert("Treinador cadastrado com sucesso!");
+    showModalAlert('Alerta', "Treinador cadastrado com sucesso!");
     document.getElementById('cadastro-form').reset();
     carregarTreinadores();
   } else {
-    alert(result);
+    showModalAlert('Alerta', result);
   }
 });
 
@@ -50,32 +56,55 @@ async function carregarTreinadores() {
 }
 
 async function removerTreinador(id) {
-  if (confirm("Tem certeza que deseja remover este treinador?")) {
+  const confirmado = await showModalConfirm("Confirmação", "Tem certeza que deseja remover este treinador?");
+  if (confirmado) {
     const res = await fetch(`http://localhost:3000/api/usuarios/remover-treinador/${id}`, {
       method: 'DELETE'
     });
-    const result = await res.text();
-    alert(result);
+    const result = await res.json();
+    showModalAlert('Alerta', result.mensagem);
     carregarTreinadores();
   }
 }
 
-function editarTreinador(id, nomeAtual, emailAtual) {
-  const novoNome = prompt("Novo nome:", nomeAtual);
-  const novoEmail = prompt("Novo e-mail:", emailAtual);
 
-  if (novoNome && novoEmail) {
-    fetch(`http://localhost:3000/api/usuarios/editar-treinador/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome: novoNome, email: novoEmail })
-    })
-    .then(res => res.text())
-    .then(msg => {
-      alert(msg);
-      carregarTreinadores();
-    });
-  }
+let editModal;
+const editTreinadorIdInput = document.getElementById("editTreinadorId");
+const editNomeInput = document.getElementById("editNome");
+const editEmailInput = document.getElementById("editEmail");
+
+function editarTreinador(id, nomeAtual, emailAtual) {
+  editTreinadorIdInput.value = id;
+  editNomeInput.value = nomeAtual;
+  editEmailInput.value = emailAtual;
+
+  const modalElement = document.getElementById('editTrainerModal');
+  editModal = new Modal(modalElement);
+  editModal.show();
 }
 
+document.getElementById("editTrainerForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const id = editTreinadorIdInput.value;
+  const nome = editNomeInput.value;
+  const email = editEmailInput.value;
+
+  const response = await fetch(`http://localhost:3000/api/usuarios/editar-treinador/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nome, email })
+  });
+
+  const result = await response.json();
+showModalAlert('Alerta', result.mensagem);
+  editModal.hide();
+  carregarTreinadores();
+});
+
 carregarTreinadores();
+
+
+window.editarTreinador = editarTreinador;
+window.removerTreinador = removerTreinador;
+window.logout = logout;

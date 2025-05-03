@@ -1,3 +1,4 @@
+import { showModalAlert } from './modal.js';
 document.getElementById("admin-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const usuario = document.getElementById("usuario").value;
@@ -16,14 +17,14 @@ document.getElementById("admin-form").addEventListener("submit", async (e) => {
       if (response.ok && data.tipo === 'coordenadora') {
         localStorage.setItem('usuario', data.nome);
         localStorage.setItem('tipo', data.tipo);
-        alert("Login realizado com sucesso!");
+        showModalAlert('Alerta', "Login realizado com sucesso!");
         window.location.href = "painelAdmin.html";
       } else {
-        alert("Acesso negado. Apenas coordenadora.");
+        showModalAlert('Alerta', "Acesso negado. Apenas coordenadora.");
       }
 
     } catch (err) {
-      alert("Erro no login.");
+      showModalAlert('Alerta', "Erro no login.");
       console.error(err);
     }
   });
