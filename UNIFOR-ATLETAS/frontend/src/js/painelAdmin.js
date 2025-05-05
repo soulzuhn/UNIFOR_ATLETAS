@@ -21,7 +21,7 @@ document.getElementById('cadastro-form').addEventListener('submit', async (e) =>
   const email = document.getElementById('email').value;
   const senha = document.getElementById('senha').value;
 
-  const response = await fetch('http://localhost:3000/api/usuarios/cadastrar-treinador', {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/cadastrar-treinador`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ usuarioLogado, novoUsuario, email, senha })
@@ -40,7 +40,7 @@ document.getElementById('cadastro-form').addEventListener('submit', async (e) =>
 
 
 async function carregarTreinadores() {
-  const res = await fetch('http://localhost:3000/api/usuarios/treinadores');
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/treinadores`)
   const treinadores = await res.json();
   const lista = document.getElementById('lista-treinadores');
 
@@ -60,7 +60,7 @@ async function carregarTreinadores() {
 async function removerTreinador(id) {
   const confirmado = await showModalConfirm("Confirmação", "Tem certeza que deseja remover este treinador?");
   if (confirmado) {
-    const res = await fetch(`http://localhost:3000/api/usuarios/remover-treinador/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/remover-treinador/${id}`, {
       method: 'DELETE'
     });
     const result = await res.json();
@@ -92,7 +92,7 @@ document.getElementById("editTrainerForm").addEventListener("submit", async (e) 
   const nome = editNomeInput.value;
   const email = editEmailInput.value;
 
-  const response = await fetch(`http://localhost:3000/api/usuarios/editar-treinador/${id}`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/editar-treinador/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ nome, email })
