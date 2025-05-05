@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "postinstall": "cd frontend && npm install && npm run build && cp -r dist ../dist"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

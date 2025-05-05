@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Treinador</title> 
+  <script type="module" crossorigin src="./assets/main-C-PKB4K0.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/main-C9uqOX0g.css">
+  <link rel="stylesheet" crossorigin href="./assets/painelTreinador-HyWxpjh1.css">
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('tipo') !== 'treinador') {
+      alert("Acesso negado.");
+      window.location.href = "loginTrein.html";
+    }
+  </script>
+
+  <div class="box">
+    <h2>Painel do Treinador</h2>
+    <p>Bem-vindo, <strong><span id="nomeTreinador"></span></strong></p>
+
+    <hr>
+
+    <p>Você poderá registrar a presença dos alunos aqui.</p>
+
+    <button onclick="logout()">Sair</button>
+  </div>
+
+  <script>
+    function logout() {
+      localStorage.clear();
+      window.location.href = "loginTrein.html";
+    }
+
+
+    const nome = localStorage.getItem('nome');
+    if (nome) {
+      document.getElementById('nomeTreinador').textContent = nome;
+    }
+  </script>
+  <div id="modal-container"></div>
+</body>
+</html>
