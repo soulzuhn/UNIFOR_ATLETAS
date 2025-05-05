@@ -1,5 +1,7 @@
 import { showModalAlert } from './modal.js';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap';
 document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const usuario = document.getElementById('username').value;
@@ -26,12 +28,10 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         showModalAlert('Alerta', 'Apenas treinadores acessam este login.');
       }
     } else {
-      // Mostra erro se usuário/senha estiverem incorretos
       showModalAlert('Alerta', data.message || 'Usuário ou senha incorretos.');
     }
 
   } catch (err) {
-    // Só cai aqui se for erro de rede ou erro inesperado
     console.error(err);
     showModalAlert('Erro', 'Erro de rede ou servidor indisponível.');
   }

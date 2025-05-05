@@ -1,13 +1,19 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000', 
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '')
-      }
-    }
-  }
-})
+  base: './', 
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        loginCoord: resolve(__dirname, 'loginCoord.html'),
+        loginTrein: resolve(__dirname, 'loginTrein.html'),
+        dashboard: resolve(__dirname, 'dashboard.html'),
+        painelAdmin: resolve(__dirname, 'painelAdmin.html'),
+        painelTreinador: resolve(__dirname, 'painelTreinador.html'),
+        turmas: resolve(__dirname, 'turmas.html'),
+      },
+    },
+  },
+});

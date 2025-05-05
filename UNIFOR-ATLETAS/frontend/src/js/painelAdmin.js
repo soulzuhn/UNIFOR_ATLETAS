@@ -1,8 +1,10 @@
 
 import { showModalAlert, showModalConfirm } from './modal.js'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal } from 'bootstrap';
 
+import { Modal } from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap';
 
 document.getElementById("nome").textContent = localStorage.getItem("usuario");
 
