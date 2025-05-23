@@ -23,7 +23,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
       localStorage.setItem('tipo', data.tipo);
 
       if (data.tipo === 'treinador') {
-        window.location.href = 'painelTreinador.html';
+        window.location.href = 'turmas.html';
       } else {
         showModalAlert('Alerta', 'Apenas treinadores acessam este login.');
       }

@@ -18,25 +18,39 @@
   <main class="dashboard-container">
     <h2>Turmas</h2>
     <div class="turmas-grid">
-      <div class="turma-card">
-        <img src="public/infantil.jpg" alt="Infantil" />
-        <p>Infantil</p>
-      </div>
-      <div class="turma-card">
-        <img src="public/sub18.jpg" alt="Sub18" />
-        <p>Sub-18</p>
-      </div>
-      <div class="turma-card">
-        <img src="public/sub20_23.jpg" alt="Sub20/23" />
-        <p>Sub-20/23</p>
-      </div>
-      <div class="turma-card">
-        <img src="public/adulto.jpg" alt="Adulto" />
-        <p>Adulto</p>
-      </div>
+   <div class="turma-card" onclick="escolherTurma('Infantil')">
+  <img src="public/infantil.jpg" alt="Infantil" />
+  <p>Infantil</p>
+</div>
+<div class="turma-card" onclick="escolherTurma('Sub-18')">
+  <img src="public/sub18.jpg" alt="Sub18" />
+  <p>Sub-18</p>
+</div>
+<div class="turma-card" onclick="escolherTurma('Sub-20/23')">
+  <img src="public/sub20_23.jpg" alt="Sub20/23" />
+  <p>Sub-20/23</p>
+</div>
+<div class="turma-card" onclick="escolherTurma('Adulto')">
+  <img src="public/adulto.jpg" alt="Adulto" />
+  <p>Adulto</p>
+</div>
+
     </div>
   </main>
   <div id="modal-container"></div>
   <script type="module" src="./src/js/main.js"></script>
+  <script>
+function escolherTurma(nomeTurma) {
+  localStorage.setItem('turmaSelecionada', nomeTurma);
+  const perfil = localStorage.getItem('perfil');
+
+  if (perfil === 'coordenadora') {
+    window.location.href = 'relatorioCoordenadora.html';
+  } else {
+    window.location.href = 'painelTreinador.html';
+  }
+}
+
+  </script>
 </body>
 </html>

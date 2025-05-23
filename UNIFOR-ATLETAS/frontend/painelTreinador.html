@@ -1,44 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel do Treinador</title>
-  <link rel="stylesheet" href="src/css/painelTreinador.css"> 
-  <link rel="icon" href="public/logoUA.png" type="image/png">
-</head>
-<body>
-  <script>
-    if (localStorage.getItem('tipo') !== 'treinador') {
-      alert("Acesso negado.");
-      window.location.href = "loginTrein.html";
-    }
-  </script>
-
-  <div class="box">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Treinador</title>
+    <link rel="icon" href="public/logoUA.png" type="image/png" />
+    <link rel="stylesheet" href="src/css/painelTreinador.css"> 
+    <script type="module" src="src/js/painelTreinador.js"></script>
+    <script>
+      const tipo = localStorage.getItem("tipo");
+      if (tipo !== "treinador") {
+        window.location.href = "relatoriocoordenadora.html";
+      }
+    </script>
+  </head>
+  <body>
     <h2>Painel do Treinador</h2>
-    <p>Bem-vindo, <strong><span id="nomeTreinador"></span></strong></p>
+    <p>
+      Bem-vindo, <strong><span id="nomeTreinador"></span></strong>
+    </p>
+    <p>
+      Turma Selecionada: <strong><span id="turmaSelecionada"></span></strong>
+    </p>
 
-    <hr>
+    <hr />
 
-    <p>Você poderá registrar a presença dos alunos aqui.</p>
+    <div class="container-flex">
+      <div class="bloco">
+        <h3>Lista de Alunos</h3>
 
-    <button onclick="logout()">Sair</button>
-  </div>
+        <div class="form-add-aluno">
+          <label>Adicionar Aluno:</label>
+          <input type="text" id="novoAlunoNome" placeholder="Nome do aluno" />
+          <button onclick="adicionarAluno()">Adicionar</button>
+        </div>
 
-  <script>
-    function logout() {
-      localStorage.clear();
-      window.location.href = "loginTrein.html";
-    }
+        <div class="data-aluno">
+          <label for="dataSelecionada"><strong>Data:</strong></label>
+          <input
+            type="date"
+            id="dataSelecionada"
+            onchange="carregarHistorico()"
+          />
+        </div>
 
+        <div id="lista-alunos" class="alunos-grid"></div>
+        <button onclick="salvarPresencas()">Salvar</button>
+      </div>
 
-    const nome = localStorage.getItem('nome');
-    if (nome) {
-      document.getElementById('nomeTreinador').textContent = nome;
-    }
-  </script>
-  <div id="modal-container"></div>
-  <script type="module" src="./src/js/main.js"></script>
-</body>
+      <div class="bloco historico">
+        <h3>Histórico de Presenças</h3>
+        <div id="historico"></div>
+      </div>
+    </div>
+
+    <div class="logout-center">
+      <button onclick="logout()">Sair</button>
+    </div>
+
+    <div id="modal-container"></div>
+
+    <script type="module" src="./src/js/main.js"></script>
+  </body>
 </html>

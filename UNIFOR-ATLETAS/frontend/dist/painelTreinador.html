@@ -3,42 +3,312 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel do Treinador</title> 
-  <script type="module" crossorigin src="./assets/main-C-PKB4K0.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-C9uqOX0g.css">
-  <link rel="stylesheet" crossorigin href="./assets/painelTreinador-HyWxpjh1.css">
+  <title>Painel do Treinador</title>
+  <link rel="icon" href="./assets/logoUA-D0o89Ts1.png" type="image/png">
+  <style>
+    body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e4f2fd;
+  margin: 0;
+  padding: 0;
+  color: #142191;
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 30px;
+  color: #142191;
+}
+
+p {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #b5c7f3;
+  margin: 20px auto;
+  max-width: 90%;
+}
+
+.container-flex {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px 5%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.bloco {
+  flex: 1 1 300px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s;
+}
+
+.bloco:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.bloco h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+  text-align: center;
+  color: #142191;
+  border-bottom: 1px solid #d0d9f8;
+  padding-bottom: 8px;
+}
+
+.frequencia-form label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.frequencia-form input[type="radio"] {
+  margin-left: 10px;
+}
+
+.calendario input[type="date"] {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.historico details {
+  margin-bottom: 12px;
+  background: #f8faff;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.historico summary {
+  font-weight: 600;
+  cursor: pointer;
+  color: #142191;
+}
+
+button {
+  background-color: #004af7;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 15px;
+}
+
+button:hover {
+  background-color: #0039c7;
+}
+
+.logout-center {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.logout-center button {
+  max-width: 200px;
+  padding: 12px 24px;
+}
+
+@media (max-width: 768px) {
+  .container-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bloco {
+    width: 100%;
+    max-width: 90%;
+  }
+  .data-aluno {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.data-aluno input[type="date"] {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.frequencia-form label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 5px 0;
+}
+
+.frequencia-form label span:first-child {
+  flex: 1;
+  min-width: 180px; 
+}
+
+.frequencia-form label span:last-child {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+}
+
+
+  </style>
 </head>
 <body>
-  <script>
-    if (localStorage.getItem('tipo') !== 'treinador') {
-      alert("Acesso negado.");
-      window.location.href = "loginTrein.html";
-    }
-  </script>
 
-  <div class="box">
-    <h2>Painel do Treinador</h2>
-    <p>Bem-vindo, <strong><span id="nomeTreinador"></span></strong></p>
+  <h2>Painel do Treinador</h2>
+  <p>Bem-vindo, <strong><span id="nomeTreinador"></span></strong></p>
+  <p>Turma Selecionada: <strong><span id="turmaSelecionada"></span></strong></p>
 
-    <hr>
+  <hr>
 
-    <p>Você poderá registrar a presença dos alunos aqui.</p>
+  <div class="container-flex">
+   <div class="bloco frequencia-form">
+  <h3>Lista de Alunos</h3>
+  
+  <div class="data-aluno">
+    <label for="dataSelecionada"><strong>Data:</strong></label>
+    <input type="date" id="dataSelecionada" onchange="carregarHistorico()">
+  </div>
 
+  <div id="lista-alunos"></div>
+  <button onclick="salvarPresencas()">Salvar</button>
+</div>
+
+
+    <div class="bloco historico">
+      <h3>Histórico de Presenças</h3>
+      <div id="historico"></div>
+    </div>
+  </div>
+
+  <div class="logout-center">
     <button onclick="logout()">Sair</button>
   </div>
 
   <script>
+    const tipo = localStorage.getItem('tipo');
+
+if (tipo !== 'treinador') {
+  window.location.href = 'relatoriocoordenadora.html';
+}
+
+    const alunos = [
+      "Nome Completo do Aluno 01",
+      "Nome Completo do Aluno 02",
+      "Nome Completo do Aluno 03",
+      "Nome Completo do Aluno 04",
+      "Nome Completo do Aluno 05",
+      "Nome Completo do Aluno 06",
+      "Nome Completo do Aluno 07",
+      "Nome Completo do Aluno 08",
+      "Nome Completo do Aluno 09"
+    ];
+
+    const nome = localStorage.getItem('nome');
+    if (nome) document.getElementById('nomeTreinador').textContent = nome;
+    const turma = localStorage.getItem('turmaSelecionada');
+    if (turma) document.getElementById('turmaSelecionada').textContent = turma;
+
+
+    const listaAlunos = document.getElementById('lista-alunos');
+    alunos.forEach((aluno, i) => {
+      listaAlunos.innerHTML += `
+        <label>
+          <span>${aluno}</span>
+          <span>
+            <input type="radio" name="aluno${i}" value="presente"> Presente
+            <input type="radio" name="aluno${i}" value="ausente"> Ausente
+          </span>
+        </label>`;
+    });
+
+    function salvarPresencas() {
+      const data = document.getElementById('dataSelecionada').value;
+      if (!data) return alert('Selecione uma data!');
+
+      const registro = {};
+      alunos.forEach((aluno, i) => {
+        const presenca = document.querySelector(`input[name=aluno${i}]:checked`);
+        registro[aluno] = presenca ? presenca.value : null;
+      });
+
+      const historico = JSON.parse(localStorage.getItem('frequencias') || '{}');
+      historico[data] = registro;
+      localStorage.setItem('frequencias', JSON.stringify(historico));
+
+      localStorage.setItem('ultimaDataSelecionada', data);
+      window.addEventListener('DOMContentLoaded', () => {
+  const dataSalva = localStorage.getItem('ultimaDataSelecionada');
+  if (dataSalva) {
+    document.getElementById('dataSelecionada').value = dataSalva;
+    carregarHistorico();
+  }
+});
+
+
+      alert('Presenças salvas!');
+      carregarHistorico();
+    }
+
+    function carregarHistorico() {
+      const data = document.getElementById('dataSelecionada').value;
+      const historico = JSON.parse(localStorage.getItem('frequencias') || '{}');
+      const container = document.getElementById('historico');
+      container.innerHTML = '';
+
+      if (!historico || !Object.keys(historico).length) {
+        container.innerHTML = '<p>Nenhum histórico encontrado.</p>';
+        return;
+      }
+
+      alunos.forEach(aluno => {
+        const presencas = [];
+        const ausencias = [];
+
+        for (const [dia, registros] of Object.entries(historico)) {
+          if (registros[aluno] === 'presente') presencas.push(dia);
+          else if (registros[aluno] === 'ausente') ausencias.push(dia);
+        }
+
+        if (presencas.length || ausencias.length) {
+          container.innerHTML += `
+            <details>
+              <summary>${aluno}</summary>
+              <p><strong>Dias Presente:</strong> ${presencas.join(', ') || 'Nenhum'}</p>
+              <p><strong>Dias Ausente:</strong> ${ausencias.join(', ') || 'Nenhum'}</p>
+            </details>`;
+        }
+      });
+    }
+
     function logout() {
       localStorage.clear();
       window.location.href = "loginTrein.html";
     }
-
-
-    const nome = localStorage.getItem('nome');
-    if (nome) {
-      document.getElementById('nomeTreinador').textContent = nome;
-    }
   </script>
-  <div id="modal-container"></div>
 </body>
 </html>

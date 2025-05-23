@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  base: './', 
   build: {
     rollupOptions: {
       input: {
@@ -13,6 +12,7 @@ export default defineConfig({
         painelAdmin: resolve(__dirname, 'painelAdmin.html'),
         painelTreinador: resolve(__dirname, 'painelTreinador.html'),
         turmas: resolve(__dirname, 'turmas.html'),
+        relatorioCoordenadora: resolve(__dirname, 'relatorioCoordenadora.html'),
       },
     },
   },
