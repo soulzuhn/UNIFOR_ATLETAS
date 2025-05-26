@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Geral - Coordenadora</title>
-    <link rel="icon" href="./assets/logoUA-D0o89Ts1.png" type="image/png">
-  <script type="module" crossorigin src="./assets/main-C-PKB4K0.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-C9uqOX0g.css">
-  <link rel="stylesheet" crossorigin href="./assets/dashboard-guEsQ7Az.css">
+    <link rel="icon" href="/assets/logoUA-D0o89Ts1.png" type="image/png">
+  <script type="module" crossorigin src="/assets/dashboard-dsXcLgmv.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/main-wURK7Rzl.js">
+  <link rel="stylesheet" crossorigin href="/assets/main-CIOEm7KW.css">
+  <link rel="stylesheet" crossorigin href="/assets/dashboard-guEsQ7Az.css">
 </head>
 <body>
     <header class="top-bar">
-        <img src="./assets/logoUA-D0o89Ts1.png" alt="Logo Unifor Atletas" class="logo">
+        <img src="/assets/logoUA-D0o89Ts1.png" alt="Logo Unifor Atletas" class="logo">
         <h1>Unifor <span class="azul-claro">Atletas</span></h1>
         <div class="profile-circle"></div>
     </header>
@@ -19,14 +20,16 @@
     <main class="dashboard-container">
         <h2>Dashboard Geral</h2>
         <div class="dashboard-grid">
-            <div class="grafico">
-                <p>GRÁFICO SOBRE A PRESENÇA GERAL</p>
-            </div>
+              <div class="grafico">
+               <canvas id="graficoPresencaGeral"></canvas>
+              </div>
+
+
             <button class="box" onclick="window.location.href='turmas.html'">LISTA DE TURMAS</button>
-            <button class="box">ADICIONAR/REMOVER ATLETA</button>
-            <button class="box">ADICIONAR/REMOVER TREINADOR</button>
+           
         </div>
     </main>
   <div id="modal-container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
