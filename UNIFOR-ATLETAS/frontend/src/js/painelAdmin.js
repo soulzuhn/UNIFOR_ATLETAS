@@ -1,6 +1,4 @@
-
-import { showModalAlert, showModalConfirm } from './modal.js'; 
-
+import { showModalAlert, showModalConfirm } from './modal.js';
 import { Modal } from 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -12,10 +10,13 @@ function logout() {
   localStorage.clear();
   window.location.href = "loginCoord.html";
 }
+window.logout = logout;
 
+// CADASTRAR TREINADOR
 document.getElementById('cadastro-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  const token = localStorage.getItem('token');
   const usuarioLogado = localStorage.getItem('usuario');
   const novoUsuario = document.getElementById('novoUsuario').value;
   const email = document.getElementById('email').value;
@@ -23,24 +24,34 @@ document.getElementById('cadastro-form').addEventListener('submit', async (e) =>
 
   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/cadastrar-treinador`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify({ usuarioLogado, novoUsuario, email, senha })
   });
 
-  const result = await response.text();
+  const result = await response.json();
 
   if (response.ok) {
     showModalAlert('Alerta', "Treinador cadastrado com sucesso!");
     document.getElementById('cadastro-form').reset();
     carregarTreinadores();
   } else {
-    showModalAlert('Alerta', result);
+    showModalAlert('Alerta', result.mensagem || 'Erro ao cadastrar.');
   }
 });
 
-
+// LISTAR TREINADORES
 async function carregarTreinadores() {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/treinadores`)
+  const token = localStorage.getItem('token');
+
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/treinadores`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
   const treinadores = await res.json();
   const lista = document.getElementById('lista-treinadores');
 
@@ -49,27 +60,34 @@ async function carregarTreinadores() {
   treinadores.forEach(treinador => {
     const li = document.createElement('li');
     li.innerHTML = `
-    <strong>${treinador.usuario}</strong> - ${treinador.email}
-     <button onclick="editarTreinador('${treinador._id}', '${treinador.usuario}', '${treinador.email}')">Editar</button>
+      <strong>${treinador.usuario}</strong> - ${treinador.email}
+      <button onclick="editarTreinador('${treinador._id}', '${treinador.usuario}', '${treinador.email}')">Editar</button>
       <button onclick="removerTreinador('${treinador._id}')">Remover</button>
     `;
     lista.appendChild(li);
   });
 }
 
+// REMOVER TREINADOR
 async function removerTreinador(id) {
   const confirmado = await showModalConfirm("Confirmação", "Tem certeza que deseja remover este treinador?");
   if (confirmado) {
+    const token = localStorage.getItem('token');
+
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/remover-treinador/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     });
+
     const result = await res.json();
     showModalAlert('Alerta', result.mensagem);
     carregarTreinadores();
   }
 }
 
-
+// EDITAR TREINADOR
 let editModal;
 const editTreinadorIdInput = document.getElementById("editTreinadorId");
 const editNomeInput = document.getElementById("editNome");
@@ -91,22 +109,26 @@ document.getElementById("editTrainerForm").addEventListener("submit", async (e) 
   const id = editTreinadorIdInput.value;
   const nome = editNomeInput.value;
   const email = editEmailInput.value;
+  const token = localStorage.getItem('token');
 
   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/editar-treinador/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify({ nome, email })
   });
 
   const result = await response.json();
-showModalAlert('Alerta', result.mensagem);
+  showModalAlert('Alerta', result.mensagem);
   editModal.hide();
   carregarTreinadores();
 });
 
+// Inicializa
 carregarTreinadores();
 
-
+// Torna funções acessíveis no HTML
 window.editarTreinador = editarTreinador;
 window.removerTreinador = removerTreinador;
-window.logout = logout;

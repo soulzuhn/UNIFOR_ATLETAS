@@ -1,21 +1,43 @@
 const Usuario = require('../models/Usuario');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const saltRounds = 10;
 
+// LOGIN
 exports.login = async (req, res) => {
   const { usuario, senha } = req.body;
 
   try {
     const user = await Usuario.findOne({ usuario });
 
-    if (!user) return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
-    if (senha !== user.senha) return res.status(401).json({ mensagem: 'Senha incorreta.' });
+    if (!user) {
+      return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
+    }
 
-    res.status(200).json({ mensagem: 'Login bem-sucedido.', nome: user.usuario, tipo: user.tipo });
+    const senhaCorreta = await bcrypt.compare(senha, user.senha);
+    if (!senhaCorreta) {
+      return res.status(401).json({ mensagem: 'Senha incorreta.' });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, tipo: user.tipo, nome: user.usuario },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.status(200).json({
+      mensagem: 'Login bem-sucedido.',
+      nome: user.usuario,
+      tipo: user.tipo,
+      token
+    });
   } catch (err) {
     console.error('Erro no login:', err);
     res.status(500).json({ mensagem: 'Erro interno no servidor.' });
   }
 };
 
+// CADASTRO PADRÃO
 exports.cadastrar = async (req, res) => {
   const { usuario, email, senha } = req.body;
 
@@ -24,7 +46,14 @@ exports.cadastrar = async (req, res) => {
   }
 
   try {
-    const novoUsuario = new Usuario({ usuario, email, senha });
+    const hashedPassword = await bcrypt.hash(senha, saltRounds);
+    const novoUsuario = new Usuario({
+      usuario,
+      email,
+      senha: hashedPassword,
+      tipo: 'coordenadora'
+    });
+
     await novoUsuario.save();
     res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
   } catch (err) {
@@ -37,17 +66,23 @@ exports.cadastrar = async (req, res) => {
   }
 };
 
+// CADASTRO DE TREINADOR (protegido por JWT)
 exports.cadastrarTreinador = async (req, res) => {
-  const { usuarioLogado, novoUsuario, email, senha } = req.body;
+  const { novoUsuario, email, senha } = req.body;
 
   try {
-    const usuarioAtual = await Usuario.findOne({ usuario: usuarioLogado });
-
-    if (!usuarioAtual || usuarioAtual.tipo !== 'coordenadora') {
+    if (!req.user || req.user.tipo !== 'coordenadora') {
       return res.status(403).json({ mensagem: 'Apenas a coordenadora pode cadastrar treinadores.' });
     }
 
-    const treinador = new Usuario({ usuario: novoUsuario, email, senha, tipo: 'treinador' });
+    const hashedPassword = await bcrypt.hash(senha, saltRounds);
+    const treinador = new Usuario({
+      usuario: novoUsuario,
+      email,
+      senha: hashedPassword,
+      tipo: 'treinador'
+    });
+
     await treinador.save();
     res.status(201).json({ mensagem: 'Treinador cadastrado com sucesso.' });
   } catch (err) {
@@ -56,6 +91,7 @@ exports.cadastrarTreinador = async (req, res) => {
   }
 };
 
+// LISTAR TREINADORES
 exports.listarTreinadores = async (req, res) => {
   try {
     const treinadores = await Usuario.find({ tipo: 'treinador' }, '_id usuario email');
@@ -66,6 +102,7 @@ exports.listarTreinadores = async (req, res) => {
   }
 };
 
+// REMOVER TREINADOR
 exports.removerTreinador = async (req, res) => {
   const { id } = req.params;
 
@@ -83,6 +120,7 @@ exports.removerTreinador = async (req, res) => {
   }
 };
 
+// EDITAR TREINADOR
 exports.editarTreinador = async (req, res) => {
   const { id } = req.params;
   const { nome, email } = req.body;
@@ -107,4 +145,3 @@ exports.editarTreinador = async (req, res) => {
     res.status(500).json({ mensagem: 'Erro ao editar treinador.' });
   }
 };
-

@@ -17,12 +17,13 @@ document.getElementById("admin-form").addEventListener("submit", async (e) => {
 
     const data = await response.json();
 
-    if (response.ok && data.tipo === "coordenadora") {
-      localStorage.setItem("usuario", data.nome);
-      localStorage.setItem("tipo", data.tipo);
-      showModalAlert("Alerta", "Login realizado com sucesso!");
-      window.location.href = "painelAdmin.html";
-    } else {
+   if (response.ok && data.tipo === "coordenadora") {
+  localStorage.setItem("usuario", data.nome);
+  localStorage.setItem("tipo", data.tipo);
+  localStorage.setItem("token", data.token); 
+  showModalAlert("Alerta", "Login realizado com sucesso!");
+  window.location.href = "painelAdmin.html";
+} else {
       showModalAlert("Alerta", "Acesso negado. Apenas coordenadora.");
     }
   } catch (err) {

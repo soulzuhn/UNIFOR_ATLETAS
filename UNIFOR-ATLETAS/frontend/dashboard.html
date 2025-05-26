@@ -17,9 +17,11 @@
     <main class="dashboard-container">
         <h2>Dashboard Geral</h2>
         <div class="dashboard-grid">
-            <div class="grafico">
-                <p>GRÁFICO SOBRE A PRESENÇA GERAL</p>
-            </div>
+              <div class="grafico">
+               <canvas id="graficoPresencaGeral"></canvas>
+              </div>
+
+
             <button class="box" onclick="window.location.href='turmas.html'">LISTA DE TURMAS</button>
             <button class="box">ADICIONAR/REMOVER ATLETA</button>
             <button class="box">ADICIONAR/REMOVER TREINADOR</button>
@@ -27,5 +29,7 @@
     </main>
   <div id="modal-container"></div>
   <script type="module" src="./src/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="./src/js/dashboardGrafico.js"></script>
 </body>
 </html>
