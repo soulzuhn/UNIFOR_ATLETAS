@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 
-// LOGIN
 exports.login = async (req, res) => {
   const { usuario, senha } = req.body;
 
@@ -37,7 +36,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// CADASTRO PADRÃO
+
 exports.cadastrar = async (req, res) => {
   const { usuario, email, senha } = req.body;
 
@@ -66,7 +65,7 @@ exports.cadastrar = async (req, res) => {
   }
 };
 
-// CADASTRO DE TREINADOR (protegido por JWT)
+
 exports.cadastrarTreinador = async (req, res) => {
   const { novoUsuario, email, senha } = req.body;
 
@@ -91,7 +90,7 @@ exports.cadastrarTreinador = async (req, res) => {
   }
 };
 
-// LISTAR TREINADORES
+
 exports.listarTreinadores = async (req, res) => {
   try {
     const treinadores = await Usuario.find({ tipo: 'treinador' }, '_id usuario email');
@@ -102,7 +101,7 @@ exports.listarTreinadores = async (req, res) => {
   }
 };
 
-// REMOVER TREINADOR
+
 exports.removerTreinador = async (req, res) => {
   const { id } = req.params;
 
@@ -120,7 +119,7 @@ exports.removerTreinador = async (req, res) => {
   }
 };
 
-// EDITAR TREINADOR
+
 exports.editarTreinador = async (req, res) => {
   const { id } = req.params;
   const { nome, email } = req.body;

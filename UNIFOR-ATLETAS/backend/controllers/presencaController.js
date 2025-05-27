@@ -50,3 +50,25 @@ exports.buscarPresencas = async (req, res) => {
     res.status(500).json({ error: "Erro ao buscar histórico de presenças." });
   }
 };
+
+exports.editarPresencaPorCampos = async (req, res) => {
+  try {
+    const { turma, data, nomeAluno, novaPresenca } = req.body;
+
+    const presencaAtualizada = await Presenca.findOneAndUpdate(
+      { turma, data, aluno: nomeAluno },
+      { status: novaPresenca },
+      { new: true }
+    );
+
+    if (!presencaAtualizada) {
+      return res.status(404).json({ error: "Registro de presença não encontrado." });
+    }
+
+    res.status(200).json({ message: "Presença atualizada com sucesso!", presenca: presencaAtualizada });
+  } catch (error) {
+    console.error("Erro ao editar presença:", error);
+    res.status(500).json({ error: "Erro ao editar presença." });
+  }
+};
+

@@ -1,9 +1,9 @@
-import{b as l}from"./main-wURK7Rzl.js";function i(a,d){const t=document.getElementById("modal-container");t.innerHTML=`
+import{a as l}from"./main-R5KTlRTc.js";function i(t,d){const a=document.getElementById("modal-container");a.innerHTML=`
   <div class="modal fade" id="alertModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">${a}</h5>
+          <h5 class="modal-title">${t}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
@@ -15,12 +15,12 @@ import{b as l}from"./main-wURK7Rzl.js";function i(a,d){const t=document.getEleme
       </div>
     </div>
   </div>
-`,new l.Modal(document.getElementById("alertModal")).show()}function c(a,d){return new Promise(t=>{const n=document.getElementById("modal-container");n.innerHTML=`
+`,new l.Modal(document.getElementById("alertModal")).show()}function c(t,d){return new Promise(a=>{const n=document.getElementById("modal-container");n.innerHTML=`
       <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">${a}</h5>
+              <h5 class="modal-title">${t}</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">
@@ -33,4 +33,4 @@ import{b as l}from"./main-wURK7Rzl.js";function i(a,d){const t=document.getEleme
           </div>
         </div>
       </div>
-    `;const o=document.getElementById("confirmModal"),e=new l.Modal(o);e.show(),o.querySelector("#confirmBtn").addEventListener("click",()=>{e.hide(),t(!0)}),o.querySelector("#cancelBtn").addEventListener("click",()=>{e.hide(),t(!1)})})}export{c as a,i as s};
+    `;const o=document.getElementById("confirmModal"),e=new l.Modal(o);e.show(),o.querySelector("#confirmBtn").addEventListener("click",()=>{e.hide(),a(!0)}),o.querySelector("#cancelBtn").addEventListener("click",()=>{e.hide(),a(!1)})})}export{c as a,i as s};
