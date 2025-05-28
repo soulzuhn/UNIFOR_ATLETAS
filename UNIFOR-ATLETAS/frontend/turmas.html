@@ -1,56 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Turmas</title>
-  <link rel="stylesheet" href="src/css/dashboard.css" />
-  <link rel="stylesheet" href="src/css/turmas.css" />
-  <link rel="icon" href="public/logoUA.png" type="image/png">
-</head>
-<body>
-  <header class="top-bar">
-    <img src="public/logoUA.png" alt="Logo Unifor Atletas" class="logo" />
-    <h1>Unifor <span class="azul-claro">Atletas</span></h1>
-    <div class="profile-circle"></div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turmas</title>
+    <link rel="stylesheet" href="src/css/dashboard.css" />
+    <link rel="stylesheet" href="src/css/turmas.css" />
+    <link rel="icon" href="public/logoUA.png" type="image/png" />
+  </head>
+  <body>
+    <header class="top-bar">
+      <a href="painelAdmin.html">
+        <img src="public/logoUni.png" alt="Logo Unifor Atletas" class="logo" />
+      </a>
+      <div class="profile-circle"></div>
+    </header>
 
-  <main class="dashboard-container">
-    <h2>Turmas</h2>
-    <div class="turmas-grid">
-   <div class="turma-card" onclick="escolherTurma('Infantil')">
-  <img src="public/infantil.jpg" alt="Infantil" />
-  <p>Infantil</p>
-</div>
-<div class="turma-card" onclick="escolherTurma('Sub-18')">
-  <img src="public/sub18.jpg" alt="Sub18" />
-  <p>Sub-18</p>
-</div>
-<div class="turma-card" onclick="escolherTurma('Sub-20/23')">
-  <img src="public/sub20_23.jpg" alt="Sub20/23" />
-  <p>Sub-20/23</p>
-</div>
-<div class="turma-card" onclick="escolherTurma('Adulto')">
-  <img src="public/adulto.jpg" alt="Adulto" />
-  <p>Adulto</p>
-</div>
+    <main class="dashboard-container">
+      <button onclick="window.history.back()" class="btn-voltar">Voltar</button>
 
-    </div>
-  </main>
-  <div id="modal-container"></div>
-  <script type="module" src="./src/js/main.js"></script>
-  <script>
-function escolherTurma(nomeTurma) {
-  localStorage.setItem('turmaSelecionada', nomeTurma);
-  const perfil = localStorage.getItem('perfil');
+      <h2>Turmas</h2>
+      <div class="turmas-grid">
+        <div class="turma-card" onclick="escolherTurma('Infantil')">
+          <img src="public/infantil.jpg" alt="Infantil" />
+          <p>Infantil</p>
+        </div>
+        <div class="turma-card" onclick="escolherTurma('Sub-18')">
+          <img src="public/sub18.png" alt="Sub18" />
+          <p>Sub-18</p>
+        </div>
+        <div class="turma-card" onclick="escolherTurma('Sub-20/23')">
+          <img src="public/sub20_23.png" alt="Sub20/23" />
+          <p>Sub-20/23</p>
+        </div>
+        <div class="turma-card" onclick="escolherTurma('Adulto')">
+          <img src="public/adulto.png" alt="Adulto" />
+          <p>Adulto</p>
+        </div>
+      </div>
+    </main>
 
-  if (perfil === 'coordenadora') {
-    window.location.href = 'relatorioCoordenadora.html';
-  } else {
-    window.location.href = 'painelTreinador.html';
-  }
-}
+    <div id="modal-container"></div>
 
-  </script>
-</body>
+    <script type="module" src="./src/js/main.js"></script>
+    <script>
+      function escolherTurma(nomeTurma) {
+        localStorage.setItem("turmaSelecionada", nomeTurma);
+        const perfil = localStorage.getItem("perfil");
+
+        if (perfil === "coordenadora") {
+          window.location.href = "relatorioCoordenadora.html";
+        } else {
+          window.location.href = "painelTreinador.html";
+        }
+      }
+    </script>
+
+    <style>
+      .btn-voltar {
+        margin: 16px;
+        padding: 10px 20px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      .btn-voltar:hover {
+        background-color: #003d80;
+      }
+    </style>
+  </body>
 </html>

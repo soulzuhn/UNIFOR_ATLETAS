@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Painel do Treinador</title>
+    <link rel="stylesheet" href="src/css/painelTreinador.css" />
     <link rel="icon" href="public/logoUA.png" type="image/png" />
-    <link rel="stylesheet" href="src/css/painelTreinador.css"> 
     <script type="module" src="src/js/painelTreinador.js"></script>
     <script>
       const tipo = localStorage.getItem("tipo");
@@ -14,53 +14,79 @@
       }
     </script>
   </head>
+
   <body>
-    <h2>Painel do Treinador</h2>
-    <p>
-      Bem-vindo, <strong><span id="nomeTreinador"></span></strong>
-    </p>
-    <p>
-      Turma Selecionada: <strong><span id="turmaSelecionada"></span></strong>
-    </p>
+    <header class="top-bar">
+      <a href="painelTreinador.html">
+        <img src="public/logoUni.png" alt="Logo Unifor Atletas" class="logo" />
+      </a>
+      <div class="profile-circle"></div>
+    </header>
 
-    <hr />
+    <main class="dashboard">
 
-    <div class="container-flex">
-      <div class="bloco">
-        <h3>Lista de Alunos</h3>
+      <section class="card full central">
+        <h2>Painel do Treinador</h2>
+        <p>
+          Bem-vindo, <strong><span id="nomeTreinador"></span></strong>
+        </p>
+        <p>
+          Turma Selecionada:
+          <strong><span id="turmaSelecionada"></span></strong>
+        </p>
+      </section>
 
-        <div class="form-add-aluno">
-          <label>Adicionar Aluno:</label>
-          <input type="text" id="novoAlunoNome" placeholder="Nome do aluno" />
-          <button onclick="adicionarAluno()">Adicionar</button>
-        </div>
-        
+ 
+      <div class="cards-duplas">
+ 
+        <section class="card">
+          <h3>Lista de Alunos</h3>
 
-        <div class="data-aluno">
-          <label for="dataSelecionada"><strong>Data:</strong></label>
-          <input
-            type="date"
-            id="dataSelecionada"
-            onchange="carregarHistorico()"
-          />
-        </div>
+          <div class="form-add-aluno">
+            <label for="novoAlunoNome">Adicionar Aluno:</label>
+            <input
+              type="text"
+              id="novoAlunoNome"
+              placeholder="Nome do aluno"
+            />
+            <button onclick="adicionarAluno()">Adicionar</button>
+          </div>
 
-        <div id="lista-alunos" class="alunos-grid"></div>
-        <button onclick="salvarPresencas()">Salvar</button>
+          <div class="data-aluno">
+            <label for="dataSelecionada"><strong>Data:</strong></label>
+            <input
+              type="date"
+              id="dataSelecionada"
+              onchange="carregarHistorico()"
+            />
+          </div>
+
+          <div id="lista-alunos" class="alunos-grid"></div>
+
+          <button onclick="salvarPresencas()">Salvar</button>
+        </section>
+
+    
+        <section class="card historico">
+          <h3>Histórico de Presenças</h3>
+          <div id="historico"></div>
+        </section>
       </div>
 
-      <div class="bloco historico">
-        <h3>Histórico de Presenças</h3>
-        <div id="historico"></div>
-      </div>
-    </div>
-
-    <div class="logout-center">
-      <button onclick="logout()">Sair</button>
-    </div>
+    
+      <section class="card full botoes central">
+        <a href="dashboard.html">
+          <button class="btn-dashboard">Ir para Dashboard</button>
+        </a>
+        <a href="logout.html">
+          <button class="btn-sair">Sair</button>
+        </a>
+      </section>
+    </main>
 
     <div id="modal-container"></div>
 
-    <script type="module" src="./src/js/main.js"></script>
+
+    <script type="module" src="src/js/main.js"></script>
   </body>
 </html>
