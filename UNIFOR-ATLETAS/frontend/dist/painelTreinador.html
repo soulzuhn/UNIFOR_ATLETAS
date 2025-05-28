@@ -3,66 +3,92 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Painel do Treinador</title>
-    <link rel="icon" href="/assets/logoUA-D0o89Ts1.png" type="image/png" /> 
+    <title>Painel do Treinador</title>
+    <link rel="icon" href="/assets/logoUA-D0o89Ts1.png" type="image/png" />
     <script>
       const tipo = localStorage.getItem("tipo");
       if (tipo !== "treinador") {
         window.location.href = "relatorioCoordenadora.html";
       }
     </script>
-    <script type="module" crossorigin src="/assets/painelTreinador-BlcHkgx9.js"></script>
+    <script type="module" crossorigin src="/assets/painelTreinador-C2DS1A-x.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/main-R5KTlRTc.js">
     <link rel="modulepreload" crossorigin href="/assets/modal-CQ86hjxP.js">
     <link rel="stylesheet" crossorigin href="/assets/main-CIOEm7KW.css">
-    <link rel="stylesheet" crossorigin href="/assets/painelTreinador-DaOs1yZ5.css">
+    <link rel="stylesheet" crossorigin href="/assets/painelTreinador-DrYxU_Ae.css">
   </head>
+
   <body>
-    <h2>Painel do Treinador</h2>
-    <p>
-      Bem-vindo, <strong><span id="nomeTreinador"></span></strong>
-    </p>
-    <p>
-      Turma Selecionada: <strong><span id="turmaSelecionada"></span></strong>
-    </p>
+    <header class="top-bar">
+      <a href="painelTreinador.html">
+        <img src="/assets/logoUni-CLhLg1uH.png" alt="Logo Unifor Atletas" class="logo" />
+      </a>
+      <div class="profile-circle"></div>
+    </header>
 
-    <hr />
+    <main class="dashboard">
 
-    <div class="container-flex">
-      <div class="bloco">
-        <h3>Lista de Alunos</h3>
+      <section class="card full central">
+        <h2>Painel do Treinador</h2>
+        <p>
+          Bem-vindo, <strong><span id="nomeTreinador"></span></strong>
+        </p>
+        <p>
+          Turma Selecionada:
+          <strong><span id="turmaSelecionada"></span></strong>
+        </p>
+      </section>
 
-        <div class="form-add-aluno">
-          <label>Adicionar Aluno:</label>
-          <input type="text" id="novoAlunoNome" placeholder="Nome do aluno" />
-          <button onclick="adicionarAluno()">Adicionar</button>
-        </div>
-        
+ 
+      <div class="cards-duplas">
+ 
+        <section class="card">
+          <h3>Lista de Alunos</h3>
 
-        <div class="data-aluno">
-          <label for="dataSelecionada"><strong>Data:</strong></label>
-          <input
-            type="date"
-            id="dataSelecionada"
-            onchange="carregarHistorico()"
-          />
-        </div>
+          <div class="form-add-aluno">
+            <label for="novoAlunoNome">Adicionar Aluno:</label>
+            <input
+              type="text"
+              id="novoAlunoNome"
+              placeholder="Nome do aluno"
+            />
+            <button onclick="adicionarAluno()">Adicionar</button>
+          </div>
 
-        <div id="lista-alunos" class="alunos-grid"></div>
-        <button onclick="salvarPresencas()">Salvar</button>
+          <div class="data-aluno">
+            <label for="dataSelecionada"><strong>Data:</strong></label>
+            <input
+              type="date"
+              id="dataSelecionada"
+              onchange="carregarHistorico()"
+            />
+          </div>
+
+          <div id="lista-alunos" class="alunos-grid"></div>
+
+          <button onclick="salvarPresencas()">Salvar</button>
+        </section>
+
+    
+        <section class="card historico">
+          <h3>Histórico de Presenças</h3>
+          <div id="historico"></div>
+        </section>
       </div>
 
-      <div class="bloco historico">
-        <h3>Histórico de Presenças</h3>
-        <div id="historico"></div>
-      </div>
-    </div>
-
-    <div class="logout-center">
-      <button onclick="logout()">Sair</button>
-    </div>
+    
+      <section class="card full botoes central">
+        <a href="dashboard.html">
+          <button class="btn-dashboard">Ir para Dashboard</button>
+        </a>
+        <a href="logout.html">
+          <button class="btn-sair">Sair</button>
+        </a>
+      </section>
+    </main>
 
     <div id="modal-container"></div>
+
 
   </body>
 </html>
